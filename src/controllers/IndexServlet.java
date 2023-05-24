@@ -23,11 +23,16 @@ public class IndexServlet extends HttpServlet {
         response.getWriter().append(Integer.valueOf(tasks.size()).toString());
 
         em.close();
-        
+
         request.setAttribute("tasks", tasks);
+        if(request.getSession().getAttribute("flush") != null) {
+            request.setAttribute("flush", request.getSession().getAttribute("flush"));
+            request.getSession().removeAttribute("flush");
+        }
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
         rd.forward(request, response);
-      
+
     }
 
 
